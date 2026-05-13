@@ -4,6 +4,7 @@ import { NavigationPage } from "./navigationPage"
 import { DatePickerPage } from "./datePickerPage";
 import { IoTDashboardPage} from "./iotDashboard";
 import { SmartTablePage } from "./smartTablePage";
+import { TooltipPage } from "./tooltipPage";
 
 
 export class PageManager{
@@ -13,6 +14,7 @@ export class PageManager{
     private formLayoutsPage: FormLayoutsPage;
     private datePickerPage: DatePickerPage;
     private smartTablePage: SmartTablePage;
+    private tooltipPage: TooltipPage;
 
     constructor(page: Page){
         this.page= page;
@@ -21,6 +23,7 @@ export class PageManager{
         this.formLayoutsPage= new FormLayoutsPage(this.page);
         this.datePickerPage= new DatePickerPage(this.page);
         this.smartTablePage= new SmartTablePage(this.page);
+        this.tooltipPage= new TooltipPage(this.page);
     }
 
     navigate(){
@@ -41,5 +44,9 @@ export class PageManager{
 
     onSmartTablePage(){
         return this.smartTablePage;
+    }
+
+    onTooltipPage(){
+        return this.tooltipPage;
     }
 }

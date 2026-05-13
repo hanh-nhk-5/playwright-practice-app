@@ -26,6 +26,11 @@ export class NavigationPage extends PageHelper{
         await this.page.getByTitle('Smart Table').click();
     }
 
+    async toTooltipPage(){
+        await this.expandGroupMenuItem('Modal & Overlays');
+        await this.page.getByTitle('Tooltip').click();
+    }
+
     async expandGroupMenuItem(title: string){
         const groupMenuItem=  this.page.getByTitle(title);
         const isExpanded = await groupMenuItem.getAttribute('aria-expanded');
