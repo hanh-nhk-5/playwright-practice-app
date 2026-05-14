@@ -2,8 +2,9 @@ import test from "@playwright/test";
 import { PageManager } from "../page-object/pageManager";
 import {faker} from "@faker-js/faker"
 
-test.beforeEach(async({page})=>{
+test.beforeEach(async({page, baseURL})=>{
      await page.goto('/');
+     console.log(`url= ${baseURL}`);
 })
 
 test.describe('group', ()=>{
@@ -21,8 +22,7 @@ test.describe('group', ()=>{
 
 test('test filter', async({page})=>{
         const pm = new PageManager(page);
-        await pm.navigate().toSmartTablePage();   
-        
+        await pm.navigate().toSmartTablePage();           
         
         await pm.onSmartTablePage().filterBy('E-mail', '@gmail.com');
         await pm.onSmartTablePage().checkResultsAfterFiltering('E-mail', '@gmail.com');

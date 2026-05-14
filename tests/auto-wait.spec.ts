@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test('auto wait', async({page})=>{
-    await page.goto('http://uitestingplayground.com/ajax');
+    await page.goto(process.env.uitestingplaygroundURL!);
     await page.getByRole('button', {name:'Button Triggering AJAX Request'}).click();
         
     // await page.waitForSelector('.bg-success');// Wait for selector

@@ -1,12 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
+import process from 'process';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -26,7 +29,9 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     
-    baseURL: 'http://localhost:4200/',
+    baseURL: process.env.DEV === '1'? 'http://localhost:4200/' 
+           : process.env.STAGING === '1' ? 'http://localhost:4201/'
+           : 'http://localhost:4200/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -38,7 +43,7 @@ export default defineConfig({
   },
 
   /* Configure projects for major browsers */
-  projects: [
+  projects: [    
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },      
