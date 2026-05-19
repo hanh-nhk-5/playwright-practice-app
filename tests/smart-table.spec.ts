@@ -1,33 +1,23 @@
-import test from "@playwright/test";
-import { PageManager } from "../page-object/pageManager";
-import {faker} from "@faker-js/faker"
+import {test, expect} from "../my-fixtures";
 
-test.beforeEach(async({page, baseURL})=>{
-     await page.goto('/');
-     console.log(`url= ${baseURL}`);
-})
 
 test.describe('group', ()=>{
     test.describe.configure({retries: 1});        
 
-    test('test delete records based on filter', async({page}, testinfo)=>{
+    test('test delete records based on filter', async({smartTablePage}, testinfo)=>{
         if(testinfo.retry > 0){            
             console.log("Retrying")
         }
-        const pm= new PageManager(page);
-        pm.navigate().toSmartTablePage();
-        await pm.onSmartTablePage().delete('ID', '3');
+        await smartTablePage.delete('ID', '3');
     })
 })
 
-test('test filter', async({page})=>{
-        const pm = new PageManager(page);
-        await pm.navigate().toSmartTablePage();           
-        
-        await pm.onSmartTablePage().filterBy('E-mail', '@gmail.com');
-        await pm.onSmartTablePage().checkResultsAfterFiltering('E-mail', '@gmail.com');
+test('test filter', async({smartTablePage})=>{
+                
+        await smartTablePage.filterBy('E-mail', '@gmail.com');
+        await smartTablePage.checkResultsAfterFiltering('E-mail', '@gmail.com');
 
-        await pm.onSmartTablePage().filterBy('Username', '@mdo'); 
-        await pm.onSmartTablePage().checkResultsAfterFiltering('Username', '@mdo');
+        await smartTablePage.filterBy('Username', '@mdo'); 
+        await smartTablePage.checkResultsAfterFiltering('Username', '@mdo');
     })
 

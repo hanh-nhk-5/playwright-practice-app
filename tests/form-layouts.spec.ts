@@ -1,18 +1,10 @@
-import { test, Page , expect} from "@playwright/test";
-import { PageManager } from "../page-object/pageManager";
+import {test, expect} from '../my-fixtures'
 
-test.beforeEach(async({page})=>{
-    await page.goto('/');
-})
-
-test("submit Inline Form", async({page})=>{
+test("submit Inline Form", async({formLayoutsPage})=>{
     const name= 'Hanh';
     const email= 'test@test.com'
-    const rememberMe = true;
-
-    const pm = new PageManager(page);
-    await pm.navigate().toFromLayoutsPage();
-    const formLayoutsPage = pm.onFormLayoutsPage();  
+    const rememberMe = true;    
+    
     await formLayoutsPage.submitInlineForm(name, email, rememberMe);
 
     await expect(formLayoutsPage.inlineForm_nameInput).toHaveValue(name);
@@ -24,14 +16,11 @@ test("submit Inline Form", async({page})=>{
 })
 
 
-test("signin Using the Grid", async({page})=>{
+test("signin Using the Grid", async({formLayoutsPage})=>{
     const name= 'Hanh';
     const email= 'test@test.com'
     const radio = "Option 2";
-
-    const pm= new PageManager(page);
-    await pm.navigate().toFromLayoutsPage();
-    const formLayoutsPage = pm.onFormLayoutsPage(); 
+    
     await formLayoutsPage.signinUsingTheGrid(name, email, radio);
 
     await expect(formLayoutsPage.usingTheGrid_nameInput).toHaveValue(name);

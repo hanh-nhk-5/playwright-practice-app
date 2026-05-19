@@ -1,20 +1,11 @@
-import test from "@playwright/test";
-import { PageManager } from "../page-object/pageManager";
+import {test, expect} from "../my-fixtures";
 
-test.beforeEach(async({page})=>{
-    page.goto('/');
+test('test tooltip message', async({tooltipPage})=>{
+    await tooltipPage.showTooltipPlacements('Right');
+    await tooltipPage.verifyTooltip('This is a tooltip')
 })
 
-test('test tooltip message', async({page})=>{
-    const pm= new PageManager(page);
-    pm.navigate().toTooltipPage();
-    await pm.onTooltipPage().showTooltipPlacements('Right');
-    await pm.onTooltipPage().verifyTooltip('This is a tooltip')
-})
-
-test('test tooltip color', async({page})=>{
-    const pm= new PageManager(page);
-    pm.navigate().toTooltipPage();
-    await pm.onTooltipPage().showColoredTooltips('primary');
-    await pm.onTooltipPage().verifyTooltipColor('rgb(51, 102, 255)');
+test('test tooltip color', async({tooltipPage})=>{
+    await tooltipPage.showColoredTooltips('primary');
+    await tooltipPage.verifyTooltipColor('rgb(51, 102, 255)');
 })

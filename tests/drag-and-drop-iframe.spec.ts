@@ -1,7 +1,8 @@
-import { test, Page , expect} from "@playwright/test";
+import { Page , expect} from "@playwright/test";
+import {test} from '../test-options';
 
-test.beforeEach(async({page})=>{
-    await page.goto(process.env.globalsqaURL!);
+test.beforeEach(async({page, globalSQAURL})=>{
+    await page.goto(globalSQAURL!);
 })
 
 test('drag and drop within iFrame', async({page})=>{

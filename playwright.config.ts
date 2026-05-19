@@ -1,11 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 import process from 'process';
+import type { TestOptions } from './test-options';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-import dotenv from 'dotenv';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
@@ -14,7 +14,7 @@ require('dotenv').config();
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({  
+export default defineConfig<TestOptions>({  
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -26,8 +26,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    globalSQAURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
     
     baseURL: process.env.DEV === '1'? 'http://localhost:4200/' 
            : process.env.STAGING === '1' ? 'http://localhost:4201/'
@@ -39,7 +41,7 @@ export default defineConfig({
     video:{
       mode: 'on-first-retry',
       size: {width: 1920, height: 1080}
-    }
+    },  
   },
 
   /* Configure projects for major browsers */
