@@ -29,8 +29,7 @@ test('user facing locators', async ({page})=>{
     await page.getByRole('textbox', {name:"Email"}).first().click();
     await page.getByLabel('Email').first().click();
     await page.getByPlaceholder('Jane Doe').click();
-    let option1RadioButton= page.getByRole('radio').first();
-    await option1RadioButton.check();
+    page.getByRole('radio', {name: 'Option 1'}).check({force: true});    //.        
 })
 
 test('locating child elements', async({page})=>{
@@ -58,8 +57,6 @@ test('reusing locators', async({page})=>{
 })
 
 test('extracting value', async({page}) =>{
-    
-
     const values = await page.locator('nb-radio').allTextContents(); //get all text content of the matched web elements
     expect(values, 'message').toContain('Option 1');
 
