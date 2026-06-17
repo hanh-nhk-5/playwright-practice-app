@@ -20,9 +20,20 @@ jobs:
     # - name: Build application
     #   run: npm run build
     - name: Start application
-      run: npm start -- --host 0.0.0.0 --poll 2000 > app.log 2>&1 &
+      run: |
+        npm start -- --host 0.0.0.0 --poll 2000 > app.log 2>&1 &
+        sleep 3
+        if ! pgrep -f "npm start" > /dev/null; then
+          echo "❌ Failed to start application"
+          cat app.log
+          exit 1
+        fi
+        echo "✅ Application process started"
     - name: Wait for application
-      run: npx wait-on http://localhost:4200 --timeout 60000
+      run: |
+        echo "⏳ Waiting for http://localhost:4200..."
+        npx wait-on http://localhost:4200 --timeout 60000
+        echo "✅ Application is ready"
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
