@@ -22,18 +22,21 @@ jobs:
     - name: Start application
       run: |
         npm start -- --host 0.0.0.0 --poll 2000 > app.log 2>&1 &
-        sleep 3
-        if ! pgrep -f "npm start" > /dev/null; then
+        sleep 5
+        if ! pgrep -f "ng serve" > /dev/null; then
           echo "❌ Failed to start application"
           cat app.log
           exit 1
         fi
-        echo "✅ Application process started"
+        echo "✅ Application process started"    
     - name: Wait for application
       run: |
         echo "⏳ Waiting for http://localhost:4200..."
-        npx wait-on http://localhost:4200 --timeout 60000
+        npx wait-on http://localhost:4200 --timeout 120000
         echo "✅ Application is ready"
+    - name: Verify application is running
+      run: |
+        curl -f http://localhost:4200 || (echo "App not responding" && cat app.log && exit 1)
     - name: Cache Playwright browsers
       uses: actions/cache@v4
       with:
